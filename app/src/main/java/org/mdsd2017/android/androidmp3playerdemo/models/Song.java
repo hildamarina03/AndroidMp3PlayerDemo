@@ -82,7 +82,7 @@ public class Song {
         String minutesString = String.valueOf(minutes);
         if(minutes < 10) minutesString = "0" + minutesString;
 
-        return minutesString + ":" + secondsString;
+        return "Duration: " + minutesString + ":" + secondsString;
     }
 
     @Override

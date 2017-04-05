@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView pictureImg;
     private ImageButton playPauseBtn;
     private Boolean isPlaying = null;
+    private ImageButton moreInfoBtn;
 
 
     @Override
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final ImageButton nextBtn = (ImageButton) this.findViewById(R.id.next_btn);
         nextBtn.setOnClickListener(this);
+
+        moreInfoBtn = (ImageButton) this.findViewById(R.id.more_info);
+        moreInfoBtn.setOnClickListener(this);
     }
 
     @Override
@@ -101,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         playPauseBtn.setImageResource(R.drawable.pause);
         pictureImg.setImageResource(currentSong.getImage());
         playPauseBtn.setImageResource(pausePlayButton);
+        moreInfoBtn.setVisibility(View.VISIBLE);
+
     }
 
     /**
@@ -157,12 +163,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
                 triggerRegularNotification();
                 break;
+            case R.id.more_info:
+                Intent songDetailIntent = new Intent(this, SongDetailActivity.class);
+                songDetailIntent.putExtra(SongDetailActivity.SONG_TITLE, currentSong.getTitle());
+                songDetailIntent.putExtra(SongDetailActivity.SONG_COMMENTS, currentSong.getComments());
+                startActivity(songDetailIntent);
+                break;
             default:
                 Log.e(TAG, "Button unknown Clicked");
                 break;
         }
     }
-    
+
 
     public void triggerRegularNotification(){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
