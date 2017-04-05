@@ -2,46 +2,65 @@ package org.mdsd2017.android.androidmp3playerdemo;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.MediaPlayer;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.mdsd2017.android.androidmp3playerdemo.models.Song;
+import org.mdsd2017.android.androidmp3playerdemo.repository.Data;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG= "In-MainActivity";
-    Boolean isPlaying = null;
+
+    private Data songsData = Data.newInstance();
+    private Song currentSong;
+    private TextView titleTxtVw;
+    private TextView countryTxtVw;
+    private TextView durationTxtVw;
+    private ImageView pictureImg;
+    private ImageButton playPauseBtn;
+    private Boolean isPlaying = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.e(this.TAG, "On Create");
+        Log.e(TAG, "On Create");
 
-        final Button playPauseBtn = (Button) this.findViewById(R.id.play_pause_btn);
+        currentSong = songsData.getFirst();
+
+        titleTxtVw = (TextView) this.findViewById(R.id.song_title_txt_vw);
+        countryTxtVw = (TextView) this.findViewById(R.id.song_country_txt_vw);
+        durationTxtVw = (TextView) this.findViewById(R.id.song_duration_txt_vw);
+        pictureImg = (ImageView) this.findViewById(R.id.song_picture_img);
+
+        playPauseBtn = (ImageButton) this.findViewById(R.id.play_pause_btn);
         playPauseBtn.setOnClickListener(this);
 
-        final Button stopBtn = (Button) this.findViewById(R.id.stop_btn);
+        final ImageButton stopBtn = (ImageButton) this.findViewById(R.id.stop_btn);
         stopBtn.setOnClickListener(this);
 
-        final Button prevBtn = (Button) this.findViewById(R.id.prev_btn);
+        final ImageButton prevBtn = (ImageButton) this.findViewById(R.id.prev_btn);
         prevBtn.setOnClickListener(this);
 
-        final Button nextBtn = (Button) this.findViewById(R.id.next_btn);
+        final ImageButton nextBtn = (ImageButton) this.findViewById(R.id.next_btn);
         nextBtn.setOnClickListener(this);
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        Log.e(this.TAG, "onDestroy");
+        Log.e(TAG, "onDestroy");
 
-        Intent intent = new Intent(this, BackgroundPlayBack.class);
+        Intent intent = new Intent(this, BackgroundPlayBackService.class);
         stopService(intent);
     }
 
@@ -49,64 +68,91 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        Log.e(this.TAG, "onConfigurationChanged");
+        Log.e(TAG, "onConfigurationChanged");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        Log.e(this.TAG, "onRestoreInstanceState");
+        Log.e(TAG, "onRestoreInstanceState");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
-        Log.e(this.TAG, "onSaveInstanceState");
+        Log.e(TAG, "onSaveInstanceState");
     }
+
+    /**
+     * Auxiliar function to avoid code repetition. Sets all song info in the view.
+     *
+     * @param pausePlayButton change play/pause button for the corresponding icon
+     */
+    private void setCurrentSongInfoInView(int pausePlayButton){
+        titleTxtVw.setText(currentSong.getTitle());
+        countryTxtVw.setText(currentSong.getCountry());
+        durationTxtVw.setText(currentSong.getDurationInMinutes());
+        playPauseBtn.setImageResource(R.drawable.pause);
+        pictureImg.setImageResource(currentSong.getImage());
+        playPauseBtn.setImageResource(pausePlayButton);
+    }
+
+    /**
+     * Auxiliar function to avoid code repetition. Creates intent and starts BackgroundPlayBackService
+     *
+     * @param mediaPlayerAction action to be performed
+     * @param toggleIsPlaying change boolean
+     * @param setNewSong indicate if song needs to be added as extra in the intent
+     */
+    private void setMediaPlayerIntent(int mediaPlayerAction, Boolean toggleIsPlaying, Boolean setNewSong){
+        isPlaying = toggleIsPlaying;
+        Intent intent = new Intent(this, BackgroundPlayBackService.class);
+        intent.putExtra(BackgroundPlayBackService.PLAYER_ACTION, mediaPlayerAction);
+        if(setNewSong) intent.putExtra(BackgroundPlayBackService.SONG_TO_PLAY, currentSong.getResource());
+        startService(intent);
+    }
+
 
     @Override
     public void onClick(View v) {
-
-        Intent intent;
-
         switch(v.getId()) {
             case R.id.play_pause_btn:
-                intent = new Intent(this, BackgroundPlayBack.class);
-                Log.e(this.TAG, "Button PLAY Clicked");
+                Log.e(TAG, "Button PLAY/PAUSE Clicked");
                 if (isPlaying == null) {
-                    intent.putExtra(BackgroundPlayBack.playerAction, BackgroundPlayBack.ACTION_PLAY);
-                    intent.putExtra(BackgroundPlayBack.songToPlay, R.raw.bensoundindia);
-                    isPlaying = true;
-                    Log.e(this.TAG, "ACTION_PLAY");
+                    setCurrentSongInfoInView(R.drawable.pause);
+                    setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
                 } else if(isPlaying) {
-                    intent.putExtra(BackgroundPlayBack.playerAction, BackgroundPlayBack.ACTION_PAUSE);
-                    isPlaying = false;
-                    Log.e(this.TAG, "ACTION_PAUSE");
+                    setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PAUSE, false, false);
+                    playPauseBtn.setImageResource(R.drawable.play);
                 } else {
-                    intent.putExtra(BackgroundPlayBack.playerAction, BackgroundPlayBack.ACTION_RESUME);
-                    isPlaying = true;
-                    Log.e(this.TAG, "ACTION_RESUME");
+                    setMediaPlayerIntent(BackgroundPlayBackService.ACTION_RESUME, true, false);
+                    playPauseBtn.setImageResource(R.drawable.pause);
                 }
-                startService(intent);
                 break;
             case R.id.stop_btn:
-                Log.e(this.TAG, "Button STOP Clicked");
-                intent = new Intent(this, BackgroundPlayBack.class);
+                Log.e(TAG, "Button STOP Clicked");
+                Intent intent = new Intent(this, BackgroundPlayBackService.class);
                 isPlaying = null;
+                playPauseBtn.setImageResource(R.drawable.play);
                 stopService(intent);
                 break;
             case R.id.prev_btn:
-                Log.e(this.TAG, "Button PREV Clicked");
+                Log.e(TAG, "Button PREV Clicked");
+                currentSong = songsData.getPrev(currentSong);
+                setCurrentSongInfoInView(R.drawable.pause);
+                setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
                 break;
             case R.id.next_btn:
-                Log.e(this.TAG, "Button NEXT Clicked");
+                Log.e(TAG, "Button NEXT Clicked");
+                currentSong = songsData.getNext(currentSong);
+                setCurrentSongInfoInView(R.drawable.pause);
+                setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
                 break;
             default:
-                Log.e(this.TAG, "Button unknown Clicked");
+                Log.e(TAG, "Button unknown Clicked");
                 break;
         }
-
     }
 }

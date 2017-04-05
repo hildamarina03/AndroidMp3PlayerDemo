@@ -5,60 +5,114 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.mdsd2017.android.androidmp3playerdemo.MainActivity">
-
-    <TextView
-        android:id="@+id/song_name_txt_vw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context="org.mdsd2017.android.androidmp3playerdemo.MainActivity"
+    android:weightSum="1"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
 
+        <TextView
+            android:id="@+id/song_title_txt_vw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:textSize="30sp"/>
 
-        <Button
-            android:id="@+id/play_pause_btn"
+        <TextView
+            android:id="@+id/song_country_txt_vw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="end"
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/song_duration_txt_vw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="end"
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/song_picture_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/placeholder"/>
+
+        <ImageButton
+            android:id="@+id/more_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play/Pause"
-            tools:layout_editor_absoluteX="138dp"
-            tools:layout_editor_absoluteY="316dp" />
-
-        <Button
-            android:id="@+id/stop_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stop"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="447dp" />
-
-        <Button
-            android:id="@+id/next_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            tools:layout_editor_absoluteX="247dp"
-            tools:layout_editor_absoluteY="389dp" />
-
-        <Button
-            android:id="@+id/prev_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prev"
-            tools:layout_editor_absoluteX="50dp"
-            tools:layout_editor_absoluteY="389dp" />
-
-
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@null"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_info_outline" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/colorPrimaryDark">
 
+        <ImageButton
+            android:id="@+id/stop_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:background="@null"
+            android:src="@drawable/stop" />
+
+        <ImageButton
+            android:id="@+id/prev_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/prev"
+            android:background="@null" />
+
+        <ImageButton
+            android:id="@+id/play_pause_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play"
+            android:background="@null" />
+
+        <ImageButton
+            android:id="@+id/next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/next"
+            android:background="@null" />
+
+    </LinearLayout>
 
 </LinearLayout>

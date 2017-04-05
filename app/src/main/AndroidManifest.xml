@@ -18,9 +18,10 @@
         </activity>
 
         <service
-            android:name=".BackgroundPlayBack"
+            android:name=".BackgroundPlayBackService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
     </application>
 
 </manifest>
