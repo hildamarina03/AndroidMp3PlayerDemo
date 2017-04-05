@@ -1,10 +1,14 @@
 package org.mdsd2017.android.androidmp3playerdemo;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -123,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isPlaying == null) {
                     setCurrentSongInfoInView(R.drawable.pause);
                     setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
+                    triggerRegularNotification();
                 } else if(isPlaying) {
                     setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PAUSE, false, false);
                     playPauseBtn.setImageResource(R.drawable.play);
@@ -143,16 +148,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 currentSong = songsData.getPrev(currentSong);
                 setCurrentSongInfoInView(R.drawable.pause);
                 setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
+                triggerRegularNotification();
                 break;
             case R.id.next_btn:
                 Log.e(TAG, "Button NEXT Clicked");
                 currentSong = songsData.getNext(currentSong);
                 setCurrentSongInfoInView(R.drawable.pause);
                 setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
+                triggerRegularNotification();
                 break;
             default:
                 Log.e(TAG, "Button unknown Clicked");
                 break;
         }
+    }
+    
+
+    public void triggerRegularNotification(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(currentSong.getTitle())
+                .setContentText(currentSong.getComments().substring(0,70)+"...")
+                .setAutoCancel(true);
+
+        Intent notificationIntent = new Intent(this, SongDetailActivity.class);
+        notificationIntent.putExtra(SongDetailActivity.SONG_TITLE, currentSong.getTitle());
+        notificationIntent.putExtra(SongDetailActivity.SONG_COMMENTS, currentSong.getComments());
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        mBuilder.setContentIntent(pendingIntent);
+
+        NotificationManager mNotificationManager = (NotificationManager) this .getSystemService(Service.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(3, mBuilder.build());
+
     }
 }
