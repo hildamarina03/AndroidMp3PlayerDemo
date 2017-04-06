@@ -22,9 +22,9 @@ import android.widget.TextView;
 import org.mdsd2017.android.androidmp3playerdemo.models.Song;
 import org.mdsd2017.android.androidmp3playerdemo.repository.Data;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class SongPlayerActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG= "In-MainActivity";
+    private static final String TAG= "In-SongPlayerActivity";
     public static final String SONG_TO_PLAY= "sonToPlay";
     private Data songsData = Data.newInstance();
     private Song currentSong;

@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.mdsd2017.android.androidmp3playerdemo.MainActivity"
+    tools:context="org.mdsd2017.android.androidmp3playerdemo.SongPlayerActivity"
     android:weightSum="1"
     >
 

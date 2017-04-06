@@ -66,8 +66,8 @@ public class PlayListActivity extends AppCompatActivity implements MyListAdapter
     public void onSongSelected(Song song) {
         Log.i(TAG, "onSongSelected");
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.SONG_TO_PLAY, song);
+        Intent intent = new Intent(this, SongPlayerActivity.class);
+        intent.putExtra(SongPlayerActivity.SONG_TO_PLAY, song);
         startActivity(intent);
 
     }
