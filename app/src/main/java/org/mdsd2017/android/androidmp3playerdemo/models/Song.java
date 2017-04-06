@@ -2,11 +2,13 @@ package org.mdsd2017.android.androidmp3playerdemo.models;
 
 import org.mdsd2017.android.androidmp3playerdemo.R;
 
+import java.io.Serializable;
+
 /**
  * Created by hilda on 04/04/17.
  */
 
-public class Song {
+public class Song implements Serializable {
 
     private String title;
     private int resource;

@@ -9,18 +9,23 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import org.mdsd2017.android.androidmp3playerdemo.models.Song;
 import org.mdsd2017.android.androidmp3playerdemo.repository.Data;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG= "In-MainActivity";
 
+    private static final String TAG= "In-MainActivity";
+    public static final String SONG_TO_PLAY= "sonToPlay";
     private Data songsData = Data.newInstance();
     private Song currentSong;
     private TextView titleTxtVw;
@@ -39,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.e(TAG, "On Create");
 
-        currentSong = songsData.getFirst();
 
         titleTxtVw = (TextView) this.findViewById(R.id.song_title_txt_vw);
         countryTxtVw = (TextView) this.findViewById(R.id.song_country_txt_vw);
@@ -60,16 +64,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         moreInfoBtn = (ImageButton) this.findViewById(R.id.more_info);
         moreInfoBtn.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        currentSong = (Song) intent.getSerializableExtra(SONG_TO_PLAY);
+        setCurrentSongInfoInView(R.drawable.pause);
+        setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
+        triggerRegularNotification();
+
+        Toolbar mToolbar = (Toolbar) this.findViewById(R.id.my_toolbar_main);
+        this.setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch(item.getItemId()){
+            case R.id.item_about_us:
+                Log.e(TAG, "About us option");
+                intent = new Intent(this, AboutUsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.item_inspiration:
+                Log.e(TAG, "Inspiration option");
+                intent = new Intent(this, InspirationActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                Log.e(TAG, "Other option");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
         Log.e(TAG, "onDestroy");
-
-        Intent intent = new Intent(this, BackgroundPlayBackService.class);
-        stopService(intent);
+        if(isFinishing()){
+            Intent intent = new Intent(this, BackgroundPlayBackService.class);
+            stopService(intent);
+        }
     }
 
     @Override

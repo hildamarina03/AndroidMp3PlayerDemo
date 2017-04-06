@@ -22,6 +22,16 @@ public class Data {
         new Song("Relaxing", R.raw.bensoundrelaxing, "Indonesia", 288, 0, "The music of Indonesia demonstrates its cultural diversity, the local musical creativity, as well as subsequent foreign musical influences that shaped contemporary music scenes of Indonesia. Nearly thousands of Indonesian islands having its own cultural and artistic history and character."),
         new Song("The elevator Bossa Nova", R.raw.bensoundtheelevatorbossanova, "Brazil", 254, R.drawable.bossanova, "Samba is a Brazilian musical genre and dance style, with its roots in Africa via the West African slave trade and African religious traditions, particularly of Angola.")
     ));
+
+    private final static int[] INSPIRATION_SOURCE = {
+            R.drawable.inspiration_dream,
+            R.drawable.inspiration_arab_proverb,
+            R.drawable.inspiration_nike,
+            R.drawable.inspiration_troubles,
+            R.drawable.inspiration_roses,
+            R.drawable.inspiration_love_worl
+    };
+
     private static Data mInstance;
 
     private Data() {
@@ -39,6 +49,18 @@ public class Data {
     public List<Song> getSongs(){
 
         return PLAYLIST;
+    }
+
+    public Song[] getSongsArray(){
+        Song[] array = new Song[PLAYLIST.size()];
+        PLAYLIST.toArray(array);
+
+        return PLAYLIST.toArray(array);
+    }
+
+    public int[] getInspiration(){
+
+        return INSPIRATION_SOURCE;
     }
 
     public Song getFirst(){
