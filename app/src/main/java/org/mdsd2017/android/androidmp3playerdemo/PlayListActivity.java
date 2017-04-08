@@ -49,11 +49,6 @@ public class PlayListActivity extends AppCompatActivity implements MyListAdapter
                 intent = new Intent(this, AboutUsActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.item_inspiration:
-                Log.e(TAG, "Inspiration option");
-                intent = new Intent(this, InspirationActivity.class);
-                startActivity(intent);
-                break;
             default:
                 Log.e(TAG, "Other option");
                 break;

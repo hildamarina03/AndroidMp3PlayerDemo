@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".SongPlayerActivity"
             android:parentActivityName=".PlayListActivity"
@@ -21,11 +22,12 @@
 
         <activity
             android:name=".SongDetailActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:parentActivityName=".SongPlayerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:launchMode="singleInstance"/>
+
         <activity android:name=".AboutUsActivity" />
-        <activity
-            android:name=".InspirationActivity"
-            android:configChanges="orientation|screenSize"/>
+
         <activity
             android:name=".PlayListActivity"
             android:launchMode="singleInstance">
@@ -35,6 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

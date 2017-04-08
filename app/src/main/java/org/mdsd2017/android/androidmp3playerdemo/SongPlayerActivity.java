@@ -34,13 +34,11 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
     private ImageView pictureImg;
     private ImageButton playPauseBtn;
     private Boolean isPlaying = null;
-    private ImageButton moreInfoBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_song_player);
 
         Log.e(TAG, "On Create");
 
@@ -62,9 +60,6 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
         final ImageButton nextBtn = (ImageButton) this.findViewById(R.id.next_btn);
         nextBtn.setOnClickListener(this);
 
-        moreInfoBtn = (ImageButton) this.findViewById(R.id.more_info);
-        moreInfoBtn.setOnClickListener(this);
-
         Intent intent = getIntent();
         currentSong = (Song) intent.getSerializableExtra(SONG_TO_PLAY);
         setCurrentSongInfoInView(R.drawable.pause);
@@ -81,6 +76,10 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        MenuItem item = menu.findItem(R.id.more_info);
+        item.setVisible(true);
+
+
         return true;
     }
 
@@ -93,10 +92,12 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
                 intent = new Intent(this, AboutUsActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.item_inspiration:
-                Log.e(TAG, "Inspiration option");
-                intent = new Intent(this, InspirationActivity.class);
-                startActivity(intent);
+            case R.id.more_info:
+                Log.e(TAG, "More info option");
+                Intent songDetailIntent = new Intent(this, SongDetailActivity.class);
+                songDetailIntent.putExtra(SongDetailActivity.SONG_TITLE, currentSong.getTitle());
+                songDetailIntent.putExtra(SongDetailActivity.SONG_COMMENTS, currentSong.getComments());
+                startActivity(songDetailIntent);
                 break;
             default:
                 Log.e(TAG, "Other option");
@@ -150,7 +151,6 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
         playPauseBtn.setImageResource(R.drawable.pause);
         pictureImg.setImageResource(currentSong.getImage());
         playPauseBtn.setImageResource(pausePlayButton);
-        moreInfoBtn.setVisibility(View.VISIBLE);
 
     }
 
@@ -207,12 +207,6 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
                 setCurrentSongInfoInView(R.drawable.pause);
                 setMediaPlayerIntent(BackgroundPlayBackService.ACTION_PLAY, true, true);
                 triggerRegularNotification();
-                break;
-            case R.id.more_info:
-                Intent songDetailIntent = new Intent(this, SongDetailActivity.class);
-                songDetailIntent.putExtra(SongDetailActivity.SONG_TITLE, currentSong.getTitle());
-                songDetailIntent.putExtra(SongDetailActivity.SONG_COMMENTS, currentSong.getComments());
-                startActivity(songDetailIntent);
                 break;
             default:
                 Log.e(TAG, "Button unknown Clicked");

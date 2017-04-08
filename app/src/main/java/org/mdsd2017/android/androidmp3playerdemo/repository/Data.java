@@ -23,15 +23,6 @@ public class Data {
         new Song("The elevator Bossa Nova", R.raw.bensoundtheelevatorbossanova, "Brazil", 254, R.drawable.bossanova, "Samba is a Brazilian musical genre and dance style, with its roots in Africa via the West African slave trade and African religious traditions, particularly of Angola.")
     ));
 
-    private final static int[] INSPIRATION_SOURCE = {
-            R.drawable.inspiration_dream,
-            R.drawable.inspiration_arab_proverb,
-            R.drawable.inspiration_nike,
-            R.drawable.inspiration_troubles,
-            R.drawable.inspiration_roses,
-            R.drawable.inspiration_love_worl
-    };
-
     private static Data mInstance;
 
     private Data() {
@@ -56,11 +47,6 @@ public class Data {
         PLAYLIST.toArray(array);
 
         return PLAYLIST.toArray(array);
-    }
-
-    public int[] getInspiration(){
-
-        return INSPIRATION_SOURCE;
     }
 
     public Song getFirst(){

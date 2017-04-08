@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hilda´s Music</string>
     <string name="menu_item_back">Back</string>
-    <string name="menu_item_inspiration">Get Inspired</string>
+    <string name="menu_item_more_info">More Info</string>
     <string name="menu_item_about_us">About Us</string>
     <string name="short_lorem_ipsum">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</string>
     <string name="long_lorem_ipsum">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.  Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. </string>
