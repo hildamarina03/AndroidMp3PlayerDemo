@@ -42,7 +42,6 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
 
         Log.e(TAG, "On Create");
 
-
         titleTxtVw = (TextView) this.findViewById(R.id.song_title_txt_vw);
         countryTxtVw = (TextView) this.findViewById(R.id.song_country_txt_vw);
         durationTxtVw = (TextView) this.findViewById(R.id.song_duration_txt_vw);
@@ -70,6 +69,7 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
         this.setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
     }
 
     @Override
@@ -140,7 +140,7 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     * Auxiliar function to avoid code repetition. Sets all song info in the view.
+     * Auxiliar method to avoid code repetition. Sets all song info in the view.
      *
      * @param pausePlayButton change play/pause button for the corresponding icon
      */
@@ -155,7 +155,7 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     * Auxiliar function to avoid code repetition. Creates intent and starts BackgroundPlayBackService
+     * Auxiliar method to avoid code repetition. Creates intent and starts BackgroundPlayBackService
      *
      * @param mediaPlayerAction action to be performed
      * @param toggleIsPlaying change boolean
@@ -214,7 +214,11 @@ public class SongPlayerActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-
+    /**
+     *
+     * Auxiliar method to avoid code repetition. Triggers the notification corresponding to the currentSong
+     *
+     */
     public void triggerRegularNotification(){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
